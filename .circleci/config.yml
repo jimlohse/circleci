@@ -29,4 +29,6 @@ workflows:
   run_hello_world:
     jobs:
       - print_hello
-      - print_world
+      - print_world:
+        requires:
+          - print_hello
