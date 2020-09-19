@@ -13,7 +13,8 @@ jobs:
           root: ~
           paths:
             - output.txt*
-      - run: echo "Hello text file" > output.txt
+      - run: |
+          echo "Hello text file" > output.txt
 
   print_output_file:
     docker:
