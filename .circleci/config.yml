@@ -13,7 +13,7 @@ jobs:
           root: ~
           paths:
             - .
-      - run: |
+      - run: 
         echo "Hello text file" > output.txt
 
   print_output_file:
