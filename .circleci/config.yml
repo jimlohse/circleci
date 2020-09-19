@@ -11,10 +11,8 @@ jobs:
       - checkout
       - persist_to_workspace:
           root: ~
-          paths:
-            - .
-      - run: 
-        echo "Hello text file" > output.txt
+          paths: .
+      - run: echo "Hello text file" > output.txt
 
   print_output_file:
     docker:
