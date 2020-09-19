@@ -9,11 +9,12 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - run: echo "Hello text file" > output.txt
       - persist_to_workspace:
           root: ~
           paths:
-            - output.txt
+            - .
+      - run: |
+        echo "Hello text file" > output.txt
 
   print_output_file:
     docker:
