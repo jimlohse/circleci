@@ -20,7 +20,10 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - checkout
-      - run: echo $MY_NAME
+      - run: 
+        name: "echo an environment variable"
+        command: |
+          echo "My name is $MY_NAME"
 
 # Orchestrate or schedule a set of jobs
 workflows:
