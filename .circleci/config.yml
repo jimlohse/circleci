@@ -22,8 +22,7 @@ jobs:
       - checkout
       - run: 
         name: "echo an environment variable"
-        command: |
-          echo "My name is $MY_NAME"
+        command: echo $MY_NAME
 
 # Orchestrate or schedule a set of jobs
 workflows:
