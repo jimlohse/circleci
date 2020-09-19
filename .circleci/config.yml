@@ -15,9 +15,16 @@ jobs:
     steps:
       - checkout
       - run: echo "World"
+  print_var:
+    docker:
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run: echo $MY_NAME
 
 # Orchestrate or schedule a set of jobs
 workflows:
+
   run_hello_world:
     jobs:
       - print_hello
