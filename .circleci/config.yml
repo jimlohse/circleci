@@ -12,9 +12,9 @@ jobs:
       - persist_to_workspace:
           root: ~
           paths:
-            - output.txt*
+            - output.txt
       - run: |
-          echo "Hello text file" > output.txt
+        echo "Hello text file" > output.txt
 
   print_output_file:
     docker:
