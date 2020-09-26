@@ -1,29 +1,29 @@
 ---
-- name: "update apt packages."
-  become: yes
-  apt:
-    update_cache: yes
+# - name: "update apt packages."
+#   become: yes
+#   apt:
+#     update_cache: yes
 
-- name: "upgrade packages"
-  become: yes
-  apt:
-    upgrade: yes
+# - name: "upgrade packages"
+#   become: yes
+#   apt:
+#     upgrade: yes
 
-- name: "install nodejs"
-  become: yes
-  apt:
-    name: "nodejs"
-    state: latest
-    update_cache: yes
+# - name: "install nodejs"
+#   become: yes
+#   apt:
+#     name: "nodejs"
+#     state: latest
+#     update_cache: yes
 
-- name: "copy index.js file"
-  copy:
-    src: index.js
-    dest: .
-    backup: yes
+# - name: "copy index.js file"
+#   copy:
+#     src: index.js
+#     dest: .
+#     backup: yes
 
 - name: "run index.js file"
-  shell: node index.js
+  shell: node index.js &
   register: print_result
 
 - name: print message
