@@ -6,7 +6,7 @@ Resources:
         - !Ref InstanceSecurityGroup
       KeyName: project-udacity
       ImageId: 'ami-02c45ea799467b51b' # you may need to find out what instance types are available in your region - use https://cloud-images.ubuntu.com/locator/ec2/
-      SubnetId: subnet-04144352f02fbc0bc
+      # SubnetId: subnet-04144352f02fbc0bc
   InstanceSecurityGroup:
     Type: 'AWS::EC2::SecurityGroup'
     Properties:
