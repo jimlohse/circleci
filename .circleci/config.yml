@@ -28,12 +28,10 @@ jobs:
         fingerprints: ["bb:43:8a:02:ca:c7:08:f8:5b:7d:94:51:50:3a:05:0a"]
       - run:
         name: install dependencies
-        command: |
-          apk add --update ansible
+        command: apk add --update ansible
       - run:
         name: configure server on AWS
-        command: |
-          ansible-playbook -i inventory.txt main.yml
+        command: ansible-playbook -i inventory.txt main.yml
 
 workflows:
   my_workflow:
