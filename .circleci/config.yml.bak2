@@ -19,23 +19,7 @@ jobs:
       - checkout
       - run: aws cloudformation create-stack --stack-name circleci --template-body file://template.yml
 
-  configure_infrastructure:
-    docker:
-      - image: python:3.8.6-alpine3.12
-    steps:
-      - checkout
-      - add_ssh_keys:
-        fingerprints: ["bb:43:8a:02:ca:c7:08:f8:5b:7d:94:51:50:3a:05:0a"]
-      - run:
-        name: install dependencies
-        command: |
-          apk add --update ansible
-      - run:
-        name: configure server on AWS
-        command: |
-          ansible-playbook -i inventory.txt main.yml
-
 workflows:
   my_workflow:
     jobs:
-      - configure_infrastructure
+      - create_infrastructure
