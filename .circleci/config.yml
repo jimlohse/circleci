@@ -12,28 +12,14 @@ commands:
       - run: echo ${CIRCLE_WORKFLOW_ID}
 
 jobs:
-  save_hello_world_output:
+  create_infrastructure:
     docker:
-      - image: circleci/node:13.8.0
+      - image: amazon/aws-cli
     steps:
-      - run: echo "hello world" > ~/output.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - output.txt
-
-  use_command:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - attach_workspace:
-          at: ~/
-      - sayhello
+      - checkout
+      - run: aws cloudformation create-stack --stack-name circleci --template-body file://template.yml
 
 workflows:
   my_workflow:
     jobs:
-      - save_hello_world_output
-      - use_command:
-          requires:
-            - save_hello_world_output
+      - create_infrastructure
