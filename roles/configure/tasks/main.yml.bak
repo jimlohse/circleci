@@ -22,11 +22,10 @@
 #     dest: .
 #     backup: yes
 
-# - name: "run index.js file"
-#   shell: node index.js &
-#   register: print_result
+- name: "run index.js file"
+  shell: node index.js &
+  register: print_result
 
-# - name: print message
-#   debug:
-#     msg: "{{ print_result.stdout_lines }}"
-
+- name: print message
+  debug:
+    msg: "{{ print_result.stdout_lines }}"

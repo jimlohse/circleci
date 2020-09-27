@@ -34,24 +34,7 @@ jobs:
           name: configure server on AWS
           command: ansible-playbook -i inventory.txt main-remote.yml
 
-  smoke_test:
-    docker:
-      - image: alpine:latest
-    steps:
-      - checkout
-      - run: apk add --update curl
-      - run:
-        name: smoke test
-        command: |
-          URL="https://googleygoodude.com"
-          if curl -s --head $URL
-          then
-            return 0
-          else
-            return 1
-          fi 
-
 workflows:
   my_workflow:
     jobs:
-      - smoke_test
+      - configure_infrastructure
