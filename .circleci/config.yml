@@ -2,14 +2,14 @@
 version: 2.1
 
 commands:
-  sayhello:
-    description: "A very simple command for demonstration purposes"
-    parameters:
-      to:
-        type: string
-        default: "Goodbye World"
+  destroy_environment:
+    description: "command to destroy the stack"
+    # parameters:
+    #   to:
+    #     type: string
+    #     default: "Goodbye World"
     steps:
-      - run: echo ${CIRCLE_WORKFLOW_ID}
+      - aws cloudformation delete-stack --stack-name ${CIRCLE_WORKFLOW_ID}
 
 jobs:
   create_infrastructure:
@@ -17,7 +17,7 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run: aws cloudformation create-stack --stack-name circleci --template-body file://template.yml
+      - run: aws cloudformation create-stack --stack-name ${CIRCLE_WORKFLOW_ID} --template-body file://template.yml
 
   configure_infrastructure:
     docker:
@@ -50,8 +50,12 @@ jobs:
             else
               return 1
             fi 
+      - destroy_environment:
+        when: on_fail
 
 workflows:
   my_workflow:
     jobs:
+      - create_infrastructure
       - smoke_test
+        requires: create_infrastructure
