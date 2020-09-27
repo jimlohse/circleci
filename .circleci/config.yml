@@ -38,9 +38,9 @@ jobs:
     docker:
       - image: alpine:latest
     steps:
-      - checkout
-      - run: apk add --update curl
-      - run:
+      checkout
+      run: apk add --update curl
+      run:
         name: smoke test
         run: |
           - URL="https://googleygoodude.com"
