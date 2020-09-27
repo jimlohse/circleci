@@ -58,5 +58,5 @@ workflows:
     jobs:
       - create_infrastructure
       - smoke_test
-          type: approval
+          #type: approval
           requires: create_infrastructure
