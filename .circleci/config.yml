@@ -43,13 +43,13 @@ jobs:
       - run:
           name: smoke test
           command: |
-            - URL="https://googleygoodude.com"
-            - if curl -s --head $URL
-            - then
-            -   return 0
-            - else
-            -   return 1
-            - fi 
+            URL="https://googleygoodude.com"
+            if curl -s --head $URL
+            then
+              return 0
+            else
+              return 1
+            fi 
 
 workflows:
   my_workflow:
