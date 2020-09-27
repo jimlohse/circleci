@@ -9,7 +9,10 @@ commands:
     #     type: string
     #     default: "Goodbye World"
     steps:
-      - aws cloudformation delete-stack --stack-name ${CIRCLE_WORKFLOW_ID}
+      - run:
+          name: Destroy environment
+          command: |
+            aws cloudformation delete-stack --stack-name ${CIRCLE_WORKFLOW_ID}
 
 jobs:
   create_infrastructure:
@@ -51,7 +54,7 @@ jobs:
               return 1
             fi 
       - destroy_environment:
-          when: on_fail
+        when: on_fail
 
 workflows:
   my_workflow:
