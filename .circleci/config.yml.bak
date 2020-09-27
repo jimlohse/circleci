@@ -35,5 +35,5 @@ workflows:
     jobs:
       - save_hello_world_output
       - use_command:
-        requires:
+        requires: |
           - save_hello_world_output
