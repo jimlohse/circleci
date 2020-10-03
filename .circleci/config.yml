@@ -7,7 +7,7 @@ commands:
     # parameters:
     #   to:
     #     type: string
-    #     default: "Goodbye World"
+    #     default: "Hello World"
     steps:
       - run:
           name: Destroy environment
