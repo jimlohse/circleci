@@ -2,17 +2,14 @@
 version: 2.1
 
 commands:
-  destroy_environment:
-    description: "command to destroy the stack"
-    # parameters:
-    #   to:
-    #     type: string
-    #     default: "Hello World"
+  sayhello:
+    description: "A very simple command for demonstration purposes"
+    parameters:
+      to:
+        type: string
+        default: "Goodbye World"
     steps:
-      - run:
-          name: Destroy environment
-          command: |
-            aws cloudformation delete-stack --stack-name ${CIRCLE_WORKFLOW_ID}
+      - run: echo ${CIRCLE_WORKFLOW_ID}
 
 jobs:
   create_infrastructure:
@@ -20,46 +17,10 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run: aws cloudformation create-stack --stack-name ${CIRCLE_WORKFLOW_ID} --template-body file://template.yml
-
-  configure_infrastructure:
-    docker:
-      - image: python:3.8.6-alpine3.12
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "bb:43:8a:02:ca:c7:08:f8:5b:7d:94:51:50:3a:05:0a"
-      - run:
-          name: install dependencies
-          command: apk add --update ansible
-      - run:
-          name: configure server on AWS
-          command: ansible-playbook -i inventory.txt main-remote.yml
-
-  smoke_test:
-    docker:
-      - image: alpine:latest
-    steps:
-      - checkout
-      - run: apk add --update curl
-      - run:
-          name: smoke test
-          command: |
-            URL="https://googleygoodude.com"
-            if curl -s --head $URL
-            then
-              return 0
-            else
-              return 1
-            fi 
-      - destroy_environment:
-          when: on_fail
+      - run: aws cloudformation create-stack --stack-name circleci --template-body file://template.yml
 
 workflows:
   my_workflow:
     jobs:
       - create_infrastructure
-      - smoke_test:
-          requires: 
-            - create_infrastructure
+      - sayhello
