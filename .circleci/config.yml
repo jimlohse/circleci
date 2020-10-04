@@ -20,7 +20,10 @@ jobs:
       - image: amazon/aws-cli
     steps:
       - checkout
-      - run: aws cloudformation create-stack --stack-name jim-${CIRCLE_WORKFLOW_ID} --template-body file://template.yml
+      - run: |
+          aws cloudformation create-stack 
+          --stack-name jim-${CIRCLE_WORKFLOW_ID} 
+          --template-body file://template.yml
 
   configure_infrastructure:
     docker:
