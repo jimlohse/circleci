@@ -49,17 +49,18 @@ jobs:
       - run:
           name: smoke test
           command: |
-            URL="https://google.com"
+            URL="https://googlelygoogdudesnow.com"
             if curl -s --head $URL
             then
               return 0
             else
               return 1
             fi 
-      - run:
-          name: Run destroy_environment command on fail
-          command: destroy_environment
-          when: on_fail
+      - destroy_environment
+        when: on_fail
+          # name: Run destroy_environment command on fail
+          # command: destroy_environment
+          # when: on_fail
 
 workflows:
   my_workflow:
