@@ -21,8 +21,8 @@ jobs:
     steps:
       - checkout
       - run: |
-          aws cloudformation create-stack 
-          --stack-name jim-${CIRCLE_WORKFLOW_ID} 
+          aws cloudformation create-stack \
+          --stack-name jim-${CIRCLE_WORKFLOW_ID} \
           --template-body file://template.yml
 
   configure_infrastructure:
