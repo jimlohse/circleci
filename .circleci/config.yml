@@ -24,6 +24,14 @@ jobs:
           aws cloudformation create-stack
           --stack-name jim-${CIRCLE_WORKFLOW_ID}
           --template-body file://template.yml
+      - run: >
+          aws ec2 describe-instances \
+          --query "Reservations[*].Instances[*].PublicIpAddress" \
+          --output=text > ip_address
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - ip_address
 
   configure_infrastructure:
     docker:
@@ -36,6 +44,11 @@ jobs:
       - run:
           name: install dependencies
           command: apk add --update ansible
+      - attach_workspace:
+          at: ~/
+      - run: >
+          echo '[ec2]' > circleci/inventory.txt
+          cat ip_address >> circleci/inventory.txt
       - run:
           name: configure server on AWS
           command: ansible-playbook -i inventory.txt main-remote.yml
@@ -57,7 +70,7 @@ jobs:
               return 1
             fi 
       - destroy_environment
-        when: on_fail
+        # when: on_fail
           # name: Run destroy_environment command on fail
           # command: destroy_environment
           # when: on_fail
@@ -66,8 +79,7 @@ workflows:
   my_workflow:
     jobs:
       - create_infrastructure
-      # - configure_infrastructure
-      - smoke_test:
+      - configure_infrastructure:
           requires:
             - create_infrastructure
 
