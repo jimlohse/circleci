@@ -24,15 +24,15 @@ jobs:
           aws cloudformation create-stack
           --stack-name jim-${CIRCLE_WORKFLOW_ID}
           --template-body file://template.yml
-      - run: sleep 60
+      - run: sleep 30
       - run: >
-          aws ec2 describe-instances 
+          IP_ADDRESS = `aws ec2 describe-instances 
           --query "Reservations[*].Instances[*].PublicIpAddress" 
-          --output=text > ip_address
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - ip_address
+          --output=text`
+      - run: >
+          curl -H "Content-Type: text/plain" -H "token: f6fa8224-640e-4ea2-be5f-ff209b76c17f" 
+          --request PUT --data $IP_ADDRESS https://api.memstash.io/values/ip_address
+
 
   configure_infrastructure:
     docker:
@@ -45,11 +45,12 @@ jobs:
       - run:
           name: install dependencies
           command: apk add --update ansible
-      - attach_workspace:
-          at: ~/
+      - run: >
+          IP_ADDRESS = `curl -H "token: f6fa8224-640e-4ea2-be5f-ff209b76c17f" 
+          --request GET https://api.memstash.io/values/ip_address`
       - run: |
           echo '[ec2]' > circleci/inventory.txt
-          cat ip_address >> circleci/inventory.txt
+          echo $IP_ADDRESS >> circleci/inventory.txt
       - run:
           name: configure server on AWS
           command: ansible-playbook -i inventory.txt main-remote.yml
@@ -80,7 +81,7 @@ workflows:
   my_workflow:
     jobs:
       - create_infrastructure
-      - configure_infrastructure:
-          requires:
-            - create_infrastructure
+      # - configure_infrastructure:
+      #    requires:
+      #      - create_infrastructure
 
