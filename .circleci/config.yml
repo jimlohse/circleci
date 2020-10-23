@@ -24,11 +24,12 @@ jobs:
           aws cloudformation create-stack
           --stack-name jim-${CIRCLE_WORKFLOW_ID}
           --template-body file://template.yml
-      - run: sleep 30
+      - run: sleep 60
       - run: >
           export IP_ADDRESS=`aws ec2 describe-instances 
           --query "Reservations[*].Instances[*].PublicIpAddress" 
           --output=text`
+      - run: echo $IP_ADDRESS
       - run: >
           curl -H "Content-Type: text/plain" -H "token: f6fa8224-640e-4ea2-be5f-ff209b76c17f" 
           --request PUT --data $IP_ADDRESS https://api.memstash.io/values/ip_address
