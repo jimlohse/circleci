@@ -24,7 +24,7 @@ jobs:
           aws cloudformation create-stack
           --stack-name jim-${CIRCLE_WORKFLOW_ID}
           --template-body file://template.yml
-      - run: sleep 60
+      - run: sleep 120
       - run: >
           export IP_ADDRESS=`aws ec2 describe-instances 
           --query "Reservations[*].Instances[*].PublicIpAddress" 
