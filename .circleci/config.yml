@@ -26,7 +26,7 @@ jobs:
           --template-body file://template.yml
       - run: sleep 30
       - run: >
-          IP_ADDRESS = `aws ec2 describe-instances 
+          export IP_ADDRESS=`aws ec2 describe-instances 
           --query "Reservations[*].Instances[*].PublicIpAddress" 
           --output=text`
       - run: >
